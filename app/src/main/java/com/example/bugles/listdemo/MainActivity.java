@@ -31,32 +31,25 @@ public class MainActivity extends AppCompatActivity {
 //        String[] ln = {"a", "b", "c"};
 //        showMyStuff(ln);
 
+/*
+this is for refresh on Listviw
+ */
+        final SwipeRefreshLayout srl = (SwipeRefreshLayout) findViewById(R.id.swipeRefreshLayout);
+        srl.setColorSchemeColors(R.color.refresh, R.color.refresh1, R.color.refresh2);
+        srl.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                srl.setRefreshing(true);
+                (new Handler()).postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        srl.setRefreshing(false);
 
-//        final SwipeRefreshLayout srl = (SwipeRefreshLayout) findViewById(R.id.listViewMain);
-//        srl.setColorSchemeColors(R.color.refresh, R.color.refresh1, R.color.refresh2);
-//        srl.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-//            @Override
-//            public void onRefresh() {
-//                srl.setRefreshing(true);
-//                (new Handler()).postDelayed(new Runnable() {
-//                    @Override
-//                    public void run() {
-//                        srl.setRefreshing(false);
-//
-//
-//                    }
-//                },3000);
-//            }
-//        });
-
-
-
-
-        new Thread(new Runnable() {
+                        new Thread(new Runnable() {
             @Override
             public void run() {
                 final String result = MineUtil.get("https://news-app.apidev.51.ca/get_yellowpages_list?category=46&offset=0&limit=20");
-                final String[] res = {result, "haha", "lala"};
+                final String[] res = {result,"haha", "lala"};
 
                 handler.post(new Runnable() {
                     @Override
@@ -73,8 +66,25 @@ public class MainActivity extends AppCompatActivity {
 
 
 
+
+
+                    }
+                },2000);
+            }
+        });
+
+
+
+
+
+
+
     }
 
+
+    /*
+    this is for listView
+     */
     private void showMyStuff (String[] str){
 
 
@@ -90,6 +100,7 @@ public class MainActivity extends AppCompatActivity {
         Log.d("debug", "showMyStuff is running");
 
     }
+
 }
 
 
