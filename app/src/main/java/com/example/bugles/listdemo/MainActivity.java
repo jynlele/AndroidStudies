@@ -12,6 +12,9 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+import java.util.List;
+
 
 public class MainActivity extends AppCompatActivity {
 
@@ -28,8 +31,8 @@ public class MainActivity extends AppCompatActivity {
 //        Intent it = new Intent(MainActivity.this, ListViewInListActivity.class);
 //        startActivity(it);
 //
-//        String[] ln = {"a", "b", "c"};
-//        showMyStuff(ln);
+        String[] ln = {"a", "b", "c"};
+        showMyStuff(ln);
 
 /*
 this is for refresh on Listviw
@@ -45,25 +48,19 @@ this is for refresh on Listviw
                     public void run() {
                         srl.setRefreshing(false);
 
-                        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                final String result = MineUtil.get("https://news-app.apidev.51.ca/get_yellowpages_list?category=46&offset=0&limit=20");
-                final String[] res = {result,"haha", "lala"};
-
-                handler.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        Log.d("debug", result);
-                        Log.d("debug", "I got here!!!");
-                        showMyStuff(res);
-
-                    }
-                });
-            }
-
-            }).start();
-
+                     AsynMineUtils.get("https://news-app.apidev.51.ca/get_yellowpages_list?category=46&offset=0&limit=20", new AsynMineUtils.Callback() {
+                         @Override
+                         public void onResponse(String response) {
+                             List<String> aList = new ArrayList<String>();
+                             aList.add(response);
+                             aList.add("it is done");
+                             aList.add("haha");
+                             aList.add("lala");
+                             String[] list = new String[aList.size()];
+                             list = aList.toArray(list);
+                             showMyStuff(list);
+                         }
+                     });
 
 
 
