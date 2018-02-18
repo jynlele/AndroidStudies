@@ -15,6 +15,7 @@ import android.widget.TextView;
 import com.google.gson.Gson;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.squareup.picasso.Downloader;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,9 +29,9 @@ public class MainActivity extends AppCompatActivity {
     ListView listView;
     Response responseObj;
     readerAdapter adapter;
-    String url = "https://news-app.apidev.51.ca/get_yellowpages_list?category=46&offset=0&limit=2";
+    String url = "https://news-app.apidev.51.ca/get_yellowpages_list?category=46&offset=0&limit=5";
     Gson gson;
-    AsyncHttpClient client;
+//    AsyncHttpClient client;
 
 
 
@@ -42,27 +43,44 @@ public class MainActivity extends AppCompatActivity {
         listView =(ListView) findViewById(R.id.listViewMain);
 
 
+/* better way to make http request
 
-        client = new AsyncHttpClient();
-        client.get(MainActivity.this, url, new AsyncHttpResponseHandler() {
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
-                //get response string
-                String responsesStr = new String(responseBody);
-                Log.d("debug", responsesStr);
-                //parse json
-                gson = new Gson();
-                responseObj = gson.fromJson(responsesStr, Response.class);
-                //set adapter to list view
-                adapter = new readerAdapter(MainActivity.this, responseObj.getData());
-                listView.setAdapter(adapter);
-            }
+ */
+//        client = new AsyncHttpClient();
+//        client.get(MainActivity.this, url, new AsyncHttpResponseHandler() {
+//            @Override
+//            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+//                //get response string
+//                String responsesStr = new String(responseBody);
+//                Log.d("debug", responsesStr);
+//                //parse json
+//                gson = new Gson();
+//                responseObj = gson.fromJson(responsesStr, Response.class);
+//                //set adapter to list view
+//                adapter = new readerAdapter(MainActivity.this, responseObj.getData());
+//                listView.setAdapter(adapter);
+//            }
+//
+//            @Override
+//            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+//
+//            }
+//        });
 
-            @Override
-            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+// my simple way to ask http request
 
-            }
-        });
+//        AsynMineUtils.get("https://news-app.apidev.51.ca/get_yellowpages_list?category=46&offset=0&limit=20", new AsynMineUtils.Callback() {
+//            @Override
+//            public void onResponse(String response) {
+//                gson = new Gson();
+//                responseObj = gson.fromJson(response, Response.class);
+//                adapter = new readerAdapter(MainActivity.this, responseObj.getData());
+//               ListView listView =(ListView) findViewById(R.id.listViewMain);
+//                listView.setAdapter(adapter);
+//            }
+//        });
+
+
         /*
         to test new Activity avaliable
          */
@@ -71,44 +89,56 @@ public class MainActivity extends AppCompatActivity {
 //
 
 /*
-this is for refresh on Listviw
+this is for refresh on Listviw and better way to ask http request
  */
 
-//        String[] ln = {"a", "b", "c"};
-//        showMyStuff(ln);
-//
-//        final SwipeRefreshLayout srl = (SwipeRefreshLayout) findViewById(R.id.swipeRefreshLayout);
-//        srl.setColorSchemeColors(R.color.refresh, R.color.refresh1, R.color.refresh2);
-//        srl.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-//            @Override
-//            public void onRefresh() {
-//                srl.setRefreshing(true);
-//                (new Handler()).postDelayed(new Runnable() {
-//                    @Override
-//                    public void run() {
-//                        srl.setRefreshing(false);
-//
-//                     AsynMineUtils.get("https://news-app.apidev.51.ca/get_yellowpages_list?category=46&offset=0&limit=20", new AsynMineUtils.Callback() {
-//                         @Override
-//                         public void onResponse(String response) {
-//                             List<String> aList = new ArrayList<String>();
-//                             aList.add(response);
-//                             aList.add("it is done");
-//                             aList.add("haha");
-//                             aList.add("lala");
-//                             String[] list = new String[aList.size()];
-//                             list = aList.toArray(list);
-//                             showMyStuff(list);
-//                         }
-//                     });
-//
-//
-//
-//
-//                    }
-//                },2000);
-//            }
-//        });
+        String[] ln = {"a", "b", "c"};
+        showMyStuff(ln);
+
+        final SwipeRefreshLayout srl = (SwipeRefreshLayout) findViewById(R.id.swipeRefreshLayout);
+        srl.setColorSchemeColors(R.color.refresh, R.color.refresh1, R.color.refresh2);
+        srl.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                srl.setRefreshing(true);
+                (new Handler()).postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        srl.setRefreshing(false);
+
+                       AsyncHttpClient client = new AsyncHttpClient();
+                        client.get(MainActivity.this, url, new AsyncHttpResponseHandler() {
+                            @Override
+                            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+                                //get response string
+                                String responsesStr = new String(responseBody);
+                                Log.d("debug", responsesStr);
+                                //parse json
+                                gson = new Gson();
+                                responseObj = gson.fromJson(responsesStr, Response.class);
+                                //set adapter to list view
+                                adapter = new readerAdapter(MainActivity.this, responseObj.getData());
+                                listView.setAdapter(adapter);
+
+
+                            }
+
+                            @Override
+                            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+
+                            }
+                        });
+
+
+
+
+
+
+
+                    }
+                },2000);
+            }
+        });
 
 
 
