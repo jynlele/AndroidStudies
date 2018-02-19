@@ -46,7 +46,7 @@ public class readerAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         //encapsulation of layout
         LayoutInflater inflater = (LayoutInflater) dContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View rowView = inflater.inflate(R.layout.simple_list_item_1, parent, false);
+        View rowView = inflater.inflate(R.layout.each_list_item, parent, false);
         //get respose
         Response.DataBean item = (Response.DataBean) getItem(position);
         //find IDS
@@ -59,10 +59,10 @@ public class readerAdapter extends BaseAdapter {
         //setText
         String imageURL = item.getCount_image_src();
 //        Picasso.with(dContext).load(imageURL).into(pic);
-        title.setText(item.getTitle());
-        summary.setText(item.getSummary());
-        contact.setText(item.getContact().getName()+" "+item.getContact().getPhone1());
-//        city.setText((CharSequence) item.getCity());
+        title.setText(item.getTitle()+"\n");
+        summary.setText(item.getSummary()+"\n");
+        contact.setText(item.getContact().getName()+" "+item.getContact().getPhone1()+"\n");
+        city.setText(item.getCity().getTag());
 
 
 
