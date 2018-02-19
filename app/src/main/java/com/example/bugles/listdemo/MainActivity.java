@@ -25,7 +25,6 @@ import cz.msebera.android.httpclient.Header;
 public class MainActivity extends AppCompatActivity {
 
 
-    ListView listView;
     Response responseObj;
     readerAdapter adapter;
     String url = "https://news-app.apidev.51.ca/get_yellowpages_list?category=46&offset=0&limit=2";
@@ -39,30 +38,57 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        listView =(ListView) findViewById(R.id.listViewMain);
+
+                     AsynMineUtils.get("https://news-app.apidev.51.ca/get_yellowpages_list?category=46&offset=0&limit=2", new AsynMineUtils.Callback() {
+                         @Override
+                         public void onResponse(String response) {
+                             Log.d("test", response);
+
+                             //parse json
+                           gson = new Gson();
+                           responseObj = gson.fromJson(response, Response.class);
+
+                           //set adapter to list view
+                           adapter = new readerAdapter(MainActivity.this, responseObj.getData());
+                             Log.d("test", "I got here");
+                             ListView listView = (ListView) findViewById(R.layout.activity_main);
+                           listView.setAdapter(adapter);
 
 
 
-        client = new AsyncHttpClient();
-        client.get(MainActivity.this, url, new AsyncHttpResponseHandler() {
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
-                //get response string
-                String responsesStr = new String(responseBody);
-                Log.d("debug", responsesStr);
-                //parse json
-                gson = new Gson();
-                responseObj = gson.fromJson(responsesStr, Response.class);
-                //set adapter to list view
-                adapter = new readerAdapter(MainActivity.this, responseObj.getData());
-                listView.setAdapter(adapter);
-            }
 
-            @Override
-            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
 
-            }
-        });
+
+                         }
+                     });
+
+
+
+
+//        listView =(ListView) findViewById(R.id.listViewMain);
+//
+//
+//
+//        client = new AsyncHttpClient();
+//        client.get(MainActivity.this, url, new AsyncHttpResponseHandler() {
+//            @Override
+//            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+//                //get response string
+//                String responsesStr = new String(responseBody);
+//                Log.d("debug", responsesStr);
+//                //parse json
+//                gson = new Gson();
+//                responseObj = gson.fromJson(responsesStr, Response.class);
+//                //set adapter to list view
+//                adapter = new readerAdapter(MainActivity.this, responseObj.getData());
+//                listView.setAdapter(adapter);
+//            }
+//
+//            @Override
+//            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+//
+//            }
+//        });
         /*
         to test new Activity avaliable
          */
