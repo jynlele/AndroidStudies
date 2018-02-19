@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.os.Handler;
 import android.view.View;
+import android.widget.AbsListView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
@@ -28,9 +29,10 @@ public class MainActivity extends AppCompatActivity {
 
     Response responseObj;
     readerAdapter adapter;
-    String url = "https://news-app.apidev.51.ca/get_yellowpages_list?category=46&offset=0&limit=5";
+    String url = "https://news-app.apidev.51.ca/get_yellowpages_list?category=46&offset=0&limit=50";
+
     Gson gson;
-//    AsyncHttpClient client;
+    AsyncHttpClient client;
 
 
 
@@ -40,26 +42,42 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
 
+        AsynMineUtils.get(url, new AsynMineUtils.Callback() {
+            @Override
+            public void onResponse(String response) {
+                ListView listView = (ListView) findViewById(R.id.listViewMain);
+                gson = new Gson();
+                responseObj = gson.fromJson(response, Response.class);
+                adapter = new readerAdapter(MainActivity.this, responseObj.getData());
+                listView.setAdapter(adapter);
+
+
+            }
+        });
 
 
 
 
 
-//        listView =(ListView) findViewById(R.id.listViewMain);
+
+
+
 //
 //
 //
+        /*better way to get
+
+         */
+//        final ListView listView = (ListView) findViewById(R.id.listViewMain);
 //        client = new AsyncHttpClient();
 //        client.get(MainActivity.this, url, new AsyncHttpResponseHandler() {
 //            @Override
 //            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
 //                //get response string
 //                String responsesStr = new String(responseBody);
-//                Log.d("debug", responsesStr);
-//                //parse json
 //                gson = new Gson();
+//                Log.d("debug", responsesStr);
 //                responseObj = gson.fromJson(responsesStr, Response.class);
-//                //set adapter to list view
 //                adapter = new readerAdapter(MainActivity.this, responseObj.getData());
 //                listView.setAdapter(adapter);
 //            }
@@ -80,54 +98,37 @@ public class MainActivity extends AppCompatActivity {
 /*
 this is for refresh on Listviw and better way to ask http request
  */
-
-        String[] ln = {"a", "b", "c"};
-        showMyStuff(ln);
-
-        final SwipeRefreshLayout srl = (SwipeRefreshLayout) findViewById(R.id.swipeRefreshLayout);
-        srl.setColorSchemeColors(R.color.refresh, R.color.refresh1, R.color.refresh2);
-        srl.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                srl.setRefreshing(true);
-                (new Handler()).postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        srl.setRefreshing(false);
-
-                       AsyncHttpClient client = new AsyncHttpClient();
-                        client.get(MainActivity.this, url, new AsyncHttpResponseHandler() {
-                            @Override
-                            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
-                                //get response string
-                                String responsesStr = new String(responseBody);
-                                Log.d("debug", responsesStr);
-                                //parse json
-                                gson = new Gson();
-                                responseObj = gson.fromJson(responsesStr, Response.class);
-                                //set adapter to list view
-                                adapter = new readerAdapter(MainActivity.this, responseObj.getData());
-                                listView.setAdapter(adapter);
-
-
-                            }
-
-                            @Override
-                            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
-
-                            }
-                        });
-
-
-
-
-
-
-
-                    }
-                },2000);
-            }
-        });
+//
+//        String[] ln = {"a", "b", "c"};
+//        showMyStuff(ln);
+//        final ListView listView = (ListView) findViewById(R.id.listViewMain);
+//        final SwipeRefreshLayout srl = (SwipeRefreshLayout) findViewById(R.id.swipeRefreshLayout);
+//        srl.setColorSchemeColors(R.color.refresh, R.color.refresh1, R.color.refresh2);
+//        srl.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+//            @Override
+//            public void onRefresh() {
+//                srl.setRefreshing(true);
+//                (new Handler()).postDelayed(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        srl.setRefreshing(false);
+//
+//        AsynMineUtils.get(url, new AsynMineUtils.Callback() {
+//            @Override
+//            public void onResponse(String response) {
+//                gson = new Gson();
+//                responseObj = gson.fromJson(response, Response.class);
+//                adapter = new readerAdapter(MainActivity.this, responseObj.getData());
+//                listView.setAdapter(adapter);
+//            }
+//        });
+//
+//
+//
+//                    }
+//                },2000);
+//            }
+//        });
 
 
 

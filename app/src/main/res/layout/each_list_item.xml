@@ -11,22 +11,24 @@
     <TextView
         android:id="@+id/title"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="10dp"
-        android:layout_toRightOf="@id/picture"
-        />
-    <TextView
-        android:id="@+id/summary"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:layout_toRightOf="@id/picture"
         />
 
     <TextView
+        android:id="@+id/summary"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/title"
+        android:layout_marginTop="15dp"
+        android:layout_toRightOf="@+id/picture" />
+
+    <TextView
         android:id="@+id/city"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/summary"
         android:layout_marginTop="10dp"
         android:layout_toRightOf="@id/picture"
         />
@@ -35,8 +37,10 @@
     <TextView
         android:id="@+id/contact"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
+
+        android:layout_below="@+id/city"
         android:layout_toRightOf="@id/picture"
         />
 

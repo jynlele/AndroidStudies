@@ -56,12 +56,12 @@ public class readerAdapter extends BaseAdapter {
         TextView contact = rowView.findViewById(R.id.contact);
         TextView city = rowView.findViewById(R.id.city);
 
-        //setText
-        String imageURL = item.getCount_image_src();
-//        Picasso.with(dContext).load(imageURL).into(pic);
-        title.setText(item.getTitle()+"\n");
-        summary.setText(item.getSummary()+"\n");
-        contact.setText(item.getContact().getName()+" "+item.getContact().getPhone1()+"\n");
+        //setText and Image
+//            String imageURL = item.getCount_image_src();
+//            Picasso.with(dContext).load(imageURL).into(pic);
+        title.setText(item.getTitle());
+        summary.setText(item.getSummary());
+        contact.setText(item.getContact().getName()+"  "+item.getContact().getPhone1());
         city.setText(item.getCity().getTag());
 
 
