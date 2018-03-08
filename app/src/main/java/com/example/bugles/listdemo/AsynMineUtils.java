@@ -3,6 +3,9 @@ package com.example.bugles.listdemo;
 
 import android.os.Handler;
 
+import java.util.ArrayList;
+import java.util.List;
+
 
 /**
  * Created by bugles on 2018-02-10.
@@ -10,7 +13,7 @@ import android.os.Handler;
 
 public class AsynMineUtils {
     public interface Callback {
-        void onResponse(String response);
+        String onResponse(String response);
     }
 
     public static void get(final String url, final Callback callback) {
@@ -36,7 +39,11 @@ public class AsynMineUtils {
             }
         }).start();
 
+
     }
+
+
+
 
     public static void post(final String url, final String params, final Callback callback){
         final Handler handler = new Handler();

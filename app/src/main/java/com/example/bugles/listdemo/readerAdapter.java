@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -18,13 +19,27 @@ import java.util.List;
 
 public class readerAdapter extends BaseAdapter {
 
-    private List<Response.DataBean> dData;
+    public List<Response.DataBean> dData;
     private Context dContext;
     private LayoutInflater inflater;
 
     public readerAdapter(Context dContext, List<Response.DataBean> dData) {
         this.dData = dData;
         this.dContext = dContext;
+    }
+    public readerAdapter(Context dContext){
+        this.dContext = dContext;
+        this.dData = new ArrayList<>();
+    }
+
+    public void addListItemToAdapter(List<Response.DataBean> dlist){
+        //add new item to the main list
+        dData.addAll(dlist);
+        notifyDataSetChanged();
+    }
+
+    public void removeAllItem(){
+        dData.clear();
     }
 
     @Override
@@ -57,8 +72,8 @@ public class readerAdapter extends BaseAdapter {
         TextView city = rowView.findViewById(R.id.city);
 
         //setText and Image
-//            String imageURL = item.getCount_image_src();
-//            Picasso.with(dContext).load(imageURL).into(pic);
+        String imageURL = item.getCount_image_src();
+        pic.setTag(imageURL);
         title.setText(item.getTitle());
         summary.setText(item.getSummary());
         contact.setText(item.getContact().getName()+"  "+item.getContact().getPhone1());

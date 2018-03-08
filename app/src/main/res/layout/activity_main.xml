@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     tools:context="com.example.bugles.listdemo.MainActivity">
 
-    <ListView
+    <!--<ListView-->
         android:id="@+id/listViewMain"
         android:layout_width="368dp"
         android:layout_height="495dp"
@@ -17,7 +17,23 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" >
 
-    </ListView>
+    <!--</ListView>-->
+
+    <com.example.bugles.listdemo.PullUpLoadListView
+        android:footerDividersEnabled="true"
+        android:dividerHeight="1px"
+        android:divider="@color/colorPrimaryDark"
+        android:id="@+id/pull_up_add_list_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        />
+
+
 
 
 </android.support.v4.widget.SwipeRefreshLayout>
