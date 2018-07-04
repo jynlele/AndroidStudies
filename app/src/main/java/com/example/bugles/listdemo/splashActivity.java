@@ -12,7 +12,7 @@ import android.view.View;
 
 import static android.os.SystemClock.sleep;
 
-public class splashActivity extends AppCompatActivity{
+public class SplashActivity extends AppCompatActivity{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
